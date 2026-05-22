@@ -49,9 +49,22 @@ Application:
 http://localhost:8080/pages/login.html
 ```
 
-# Screenshots
+## Screenshots
 
+### Register Page
+![Register Page](SecureBank/Screenshots/RegisterPage.png)
 
+### Login Page
+![Login Page](SecureBank/Screenshots/LoginPage.png)
+
+### Dashboard
+![Dashboard](SecureBank/Screenshots/DashboardPage.png)
+
+### Account Details
+![Account Details](SecureBank/Screenshots/UserAccountDetails.png)
+
+### Transaction History
+![Transaction History](SecureBank/Screenshots/TransactionHistory.png)
 
 
 ## Future Improvements
