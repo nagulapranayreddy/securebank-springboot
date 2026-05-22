@@ -48,23 +48,22 @@ Application:
 ```text
 http://localhost:8080/pages/login.html
 ```
-
 ## Screenshots
 
 ### Register Page
-![Register Page](SecureBank/Screenshots/RegisterPage.png)
+![Register Page](SecureBank%20Screenshots/RegisterPage.png)
 
 ### Login Page
-![Login Page](SecureBank/Screenshots/LoginPage.png)
+![Login Page](SecureBank%20Screenshots/LoginPage.png)
 
 ### Dashboard
-![Dashboard](SecureBank/Screenshots/DashboardPage.png)
+![Dashboard](SecureBank%20Screenshots/DashboardPage.png)
 
 ### Account Details
-![Account Details](SecureBank/Screenshots/UserAccountDetails.png)
+![Account Details](SecureBank%20Screenshots/UserAccountDetails.png)
 
 ### Transaction History
-![Transaction History](SecureBank/Screenshots/TransactionHistory.png)
+![Transaction History](SecureBank%20Screenshots/TransactionHistory.png)
 
 
 ## Future Improvements
