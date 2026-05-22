@@ -1,0 +1,63 @@
+# SecureBank Spring Boot Application
+
+A full-stack banking application developed using:
+
+- Spring Boot
+- Spring Security + JWT
+- Spring Data JPA / Hibernate
+- MySQL
+- HTML / CSS / JavaScript
+- Docker & Docker Compose
+
+## Features
+
+- User Registration & Login
+- JWT Authentication
+- Create Bank Accounts
+- Deposit Money
+- Withdraw Money
+- Transfer Money
+- Transaction History
+- Dockerized Deployment
+
+## Tech Stack
+
+Backend:
+- Java 17
+- Spring Boot
+- Hibernate/JPA
+- MySQL
+
+Frontend:
+- HTML
+- CSS
+- JavaScript
+
+DevOps:
+- Docker
+- Docker Compose
+- GitHub
+
+## Run Project Using Docker
+
+```bash
+docker compose up --build
+```
+
+Application:
+```text
+http://localhost:8080/pages/login.html
+```
+
+# Screenshots
+
+
+
+
+## Future Improvements
+
+- Redis Caching
+- Kafka Integration
+- AWS Deployment
+- CI/CD Pipeline
+- Swagger Documentation
