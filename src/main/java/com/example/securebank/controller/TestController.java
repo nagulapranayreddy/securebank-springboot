@@ -1,0 +1,13 @@
+package com.example.securebank.controller;
+
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+@RestController
+public class TestController {
+
+    @GetMapping("/api/test/profile")
+    public String profile() {
+        return "This is protected profile API";
+    }
+}

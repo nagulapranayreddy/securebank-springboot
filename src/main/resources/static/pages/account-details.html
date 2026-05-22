@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Account Details</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+
+<div class="navbar">
+    <div class="nav-left">
+        <h2>SecureBank</h2>
+        <span class="nav-title">Account Details</span>
+    </div>
+
+    <button onclick="logout()">Logout</button>
+</div>
+
+<div class="container">
+
+    <a href="/pages/dashboard.html">    <button > Back to Dashboard</button> </a>
+
+    <h1>Account Details</h1>
+
+    <div id="account-details" class="account-summary-card"></div>
+
+    <div class="section">
+        <h3>Account Actions</h3>
+
+        <div class="actions-grid">
+
+            <div class="action-card">
+                <h3>Deposit</h3>
+                <input type="number" id="depositAmount" placeholder="Enter amount">
+                <button onclick="depositMoney()">Deposit</button>
+            </div>
+
+            <div class="action-card">
+                <h3>Withdraw</h3>
+                <input type="number" id="withdrawAmount" placeholder="Enter amount">
+                <button onclick="withdrawMoney()">Withdraw</button>
+            </div>
+
+            <div class="action-card">
+                <h3>Transfer</h3>
+                <input type="text" id="toAccountNumber" placeholder="Receiver account number">
+                <input type="number" id="transferAmount" placeholder="Enter amount">
+                <button onclick="transferMoney()">Transfer</button>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="section">
+        <h3>Transaction History</h3>
+        <div id="transaction-history"></div>
+    </div>
+
+</div>
+
+<script src="/js/app.js"></script>
+</body>
+</html>
