@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import com.example.securebank.dto.CreateAccountRequest;
 import com.example.securebank.service.AccountService;
 
+import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
 
 @RestController
@@ -68,7 +69,7 @@ public class AccountController {
         return ResponseEntity.ok(response);
     }
     
-    
+    @Operation(summary = "Transfer money between accounts")
     @PostMapping("/transfer")
     public ResponseEntity<String> transfer(
     		@Valid @RequestBody TransferRequest request
