@@ -66,6 +66,17 @@ http://localhost:8080/pages/login.html
 ![Transaction History](SecureBank%20Screenshots/TransactionHistory.png)
 
 
+## API Documentation
+
+Swagger UI:
+
+http://localhost:8080/swagger-ui/index.html
+
+OpenAPI Spec:
+
+http://localhost:8080/v3/api-docs
+
+
 ## Future Improvements
 
 - Redis Caching
