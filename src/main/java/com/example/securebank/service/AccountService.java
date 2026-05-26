@@ -10,6 +10,8 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Random;
 
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
@@ -51,7 +53,7 @@ public class AccountService {
     
     
     
-
+    @CacheEvict(value = "myAccounts", allEntries = true)
     public String createAccount(CreateAccountRequest request) {
 
         String email = SecurityContextHolder.getContext().getAuthentication().getName();
@@ -77,19 +79,32 @@ public class AccountService {
     }
     
     
-    public List<AccountResponse> getMyAccounts() {
+    @Cacheable(
+    	    value = "myAccounts",
+    	    key = "T(org.springframework.security.core.context.SecurityContextHolder).getContext().getAuthentication().getName()"
+    	)
+    	public List<AccountResponse> getMyAccounts() {
 
-        String email = SecurityContextHolder.getContext().getAuthentication().getName();
+    	    String email = SecurityContextHolder.getContext()
+    	            .getAuthentication()
+    	            .getName();
 
-        User user = userRepository.findByEmail(email)
-                .orElseThrow(() -> new RuntimeException("User not found"));
+    	    User user = userRepository.findByEmail(email)
+    	            .orElseThrow(() -> new RuntimeException("User not found"));
 
-        List<Account> accounts = accountRepository.findByUser(user);
+    	    
+    	    System.out.println("Fetching my accounts from DATABASE...");
+    	    List<Account> accounts = accountRepository.findByUser(user);
 
-        return accounts.stream()
-                .map(this::mapToResponse)
-                .collect(Collectors.toList());
-    }
+    	    return accounts.stream()
+    	            .map(this::mapToResponse)
+    	            .collect(Collectors.toList());
+    	}
+    
+    
+    
+    
+    
     
     
     public AccountResponse getAccountByAccountNumber(String accountNumber) {
@@ -123,6 +138,7 @@ public class AccountService {
     
     
     
+    @CacheEvict(value = "myAccounts", allEntries = true)
     public String deposit(DepositRequest request) {
 
         String email = SecurityContextHolder.getContext().getAuthentication().getName();
@@ -165,6 +181,7 @@ public class AccountService {
     
     
     
+    @CacheEvict(value = "myAccounts", allEntries = true)
     public String withdraw(WithdrawRequest request) {
 
         String email = SecurityContextHolder.getContext().getAuthentication().getName();
@@ -205,6 +222,7 @@ public class AccountService {
     }
     
     
+    @CacheEvict(value = "myAccounts", allEntries = true)
     @Transactional
     public String transfer(TransferRequest request) {
 

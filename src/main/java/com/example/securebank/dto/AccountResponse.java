@@ -1,13 +1,16 @@
 package com.example.securebank.dto;
 
 import java.math.BigDecimal;
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
 import com.example.securebank.entity.AccountStatus;
 import com.example.securebank.entity.AccountType;
 
-public class AccountResponse {
+public class AccountResponse implements Serializable {
 	
+	
+    private static final long serialVersionUID = 1L;
 	private AccountType accountType;
 	private AccountStatus accountStatus;
 	private String accountNumber;
