@@ -1,6 +1,7 @@
 package com.example.securebank.service;
 
 import java.math.BigDecimal;
+import com.example.securebank.event.TransactionEvent;
 
 import com.example.securebank.entity.Transaction;
 import com.example.securebank.entity.TransactionStatus;
@@ -38,17 +39,20 @@ public class AccountService {
     private final AccountRepository accountRepository;
     private final UserRepository userRepository;
     private final TransactionRepository transactionRepository;
+    private final KafkaProducerService kafkaProducerService;
     
     
 
     public AccountService(
             AccountRepository accountRepository,
             UserRepository userRepository,
-            TransactionRepository transactionRepository
+            TransactionRepository transactionRepository,
+            KafkaProducerService kafkaProducerService
     ) {
         this.accountRepository = accountRepository;
         this.userRepository = userRepository;
         this.transactionRepository = transactionRepository;
+        this.kafkaProducerService = kafkaProducerService;
     }
     
     
@@ -141,6 +145,9 @@ public class AccountService {
     @CacheEvict(value = "myAccounts", allEntries = true)
     public String deposit(DepositRequest request) {
 
+    	
+    	// System.out.println("DEPOSIT METHOD STARTED");
+    	 
         String email = SecurityContextHolder.getContext().getAuthentication().getName();
 
         User user = userRepository.findByEmail(email)
@@ -164,19 +171,34 @@ public class AccountService {
         account.setBalance(
                 account.getBalance().add(request.getAmount())
         );
-
+        
+        LocalDateTime now = LocalDateTime.now();
+        
         Transaction transaction = new Transaction();
+
 
         transaction.setAccount(account);
         transaction.setAmount(request.getAmount());
-        transaction.setCreatedAt(LocalDateTime.now());
+        transaction.setCreatedAt(now);
         transaction.setDescription("Money deposited");
         transaction.setTransactionType(TransactionType.DEPOSIT);
         transaction.setTransactionStatus(TransactionStatus.SUCCESS);
-
+        
         transactionRepository.save(transaction);
 
+        TransactionEvent event = new TransactionEvent(
+                account.getAccountNumber(),
+                "DEPOSIT",
+                request.getAmount(),
+                "Money deposited",
+                now
+        );
+
+       // System.out.println("Deposit completed. Calling Kafka producer...");
+        kafkaProducerService.sendTransactionEvent(event);
+
         return "Amount deposited successfully";
+
     }
     
     
@@ -217,6 +239,16 @@ public class AccountService {
         transaction.setTransactionStatus(TransactionStatus.SUCCESS);
 
         transactionRepository.save(transaction);
+        
+        TransactionEvent event = new TransactionEvent(
+                account.getAccountNumber(),
+                "WITHDRAW",
+                request.getAmount(),
+                "Money withdrawn",
+                LocalDateTime.now()
+        );
+
+        kafkaProducerService.sendTransactionEvent(event);
 
         return "Amount withdrawn successfully";
     }
@@ -273,6 +305,26 @@ public class AccountService {
 
         transactionRepository.save(debitTransaction);
         transactionRepository.save(creditTransaction);
+        
+        
+        TransactionEvent debitEvent = new TransactionEvent(
+                fromAccount.getAccountNumber(),
+                "TRANSFER",
+                request.getAmount(),
+                "Money transferred to " + toAccount.getAccountNumber(),
+                LocalDateTime.now()
+        );
+
+        TransactionEvent creditEvent = new TransactionEvent(
+                toAccount.getAccountNumber(),
+                "TRANSFER",
+                request.getAmount(),
+                "Money received from " + fromAccount.getAccountNumber(),
+                LocalDateTime.now()
+        );
+
+        kafkaProducerService.sendTransactionEvent(debitEvent);
+        kafkaProducerService.sendTransactionEvent(creditEvent);
 
         return "Amount transferred successfully";
     }
